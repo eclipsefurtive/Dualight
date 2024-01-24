@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Script.Objects;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, ILightBehaviour
 {
+    [SerializeField] private Renderer _renderer;
+    [SerializeField] private Material _darkMaterial;
+    [SerializeField] private Material _lightMaterial;
+    
     [SerializeField] private PlayerInputController _input;
     [SerializeField] private Rigidbody _rigidbody;
 
@@ -15,6 +20,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _input ??= GetComponent<PlayerInputController>();
+        _renderer ??= GetComponent<Renderer>();
+        
         _input.OnJump += Jump;
     }
 
@@ -32,5 +39,15 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         _rigidbody.AddRelativeForce(Vector3.up * _jumpForce);
+    }
+
+    public void OnEnterLight()
+    {
+        _renderer.material = _lightMaterial;
+    }
+
+    public void OnExitLight()
+    {
+        _renderer.material = _darkMaterial;
     }
 }
