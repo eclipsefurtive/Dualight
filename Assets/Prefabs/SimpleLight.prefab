@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2821125176745876033}
   - component: {fileID: 4485014822010140643}
   - component: {fileID: 385988774853446449}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SimpleLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,6 @@ MonoBehaviour:
   _light: {fileID: 2821125176745876033}
   _collider: {fileID: 4485014822010140643}
   _lightRadius: 5
-  _lightSource: {fileID: 7819885588864307203}
 --- !u!1 &7102768422847326530
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +146,7 @@ GameObject:
   - component: {fileID: 5478786731833213004}
   - component: {fileID: 4988694745949188524}
   - component: {fileID: 4167048529870453593}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

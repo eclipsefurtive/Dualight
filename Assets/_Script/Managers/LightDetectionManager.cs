@@ -11,8 +11,8 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
     
     private List<LightSource> _lightSources = new List<LightSource>();
     
-    private List<GameObject> _objectsInLitArea = new List<GameObject>();
-    private List<GameObject> _objectsDetectedInCurrentFrame = new List<GameObject>();
+    [SerializeField] private List<GameObject> _objectsInLitArea = new List<GameObject>();
+    [SerializeField] private List<GameObject> _objectsDetectedInCurrentFrame = new List<GameObject>();
 
     private int LightSourcesCount => _lightSources.Count;
     
@@ -29,16 +29,15 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
 
     private void Update()
     {
+        _objectsDetectedInCurrentFrame = new List<GameObject>();
         if (LightSourcesCount < 1) return;
-        
-        _objectsDetectedInCurrentFrame.Clear();
         
         foreach (LightSource lightSource in _lightSources)
             SendLightRays(lightSource);
         
         CheckObjectsExit();
     }
-    
+
     public void SendLightRays(LightSource lightSource)
     {
         for (float angle = 0f; angle < 360f; angle += lightSource.AngleDelta)
@@ -46,22 +45,9 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
             float radAngle = angle * Mathf.Deg2Rad;
             Vector3 rayDirection = new Vector3(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
             Vector3 rayOrigin = lightSource.Position;
-
+            
             RaycastObjects(rayOrigin, rayDirection, lightSource.Radius);
             RaycastPlayer(rayOrigin, rayDirection, lightSource.Radius);
-            /*
-            if (!Physics.Raycast(rayOrigin, rayDirection, out RaycastHit hitInfo, lightSource.Radius)) continue;
-            
-            GameObject detectedObject = hitInfo.transform.gameObject;
-            if (!detectedObject.TryGetComponent(out ILightBehaviour lightObject)) continue;
-
-            if (_objectsDetectedInCurrentFrame.Contains(detectedObject)) continue;
-            _objectsDetectedInCurrentFrame.Add(detectedObject);
-
-            if (_objectsInLitArea.Contains(detectedObject)) continue;
-            
-            lightObject.OnEnterLight();
-            _objectsInLitArea.Add(detectedObject);*/
         }
     }
 
@@ -84,16 +70,16 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
     private void RaycastPlayer(Vector3 origin, Vector3 direction, float radius)
     {
         if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, playerLayer|objectsLayers)) return;
-            
         GameObject detectedObject = hitInfo.transform.gameObject;
-        if (!detectedObject.TryGetComponent(out ILightBehaviour lightObject)) return;
+        
+        if (!detectedObject.TryGetComponent(out Player player)) return;
 
         if (_objectsDetectedInCurrentFrame.Contains(detectedObject)) return;
         _objectsDetectedInCurrentFrame.Add(detectedObject);
 
         if (_objectsInLitArea.Contains(detectedObject)) return;
             
-        lightObject.OnEnterLight();
+        player.OnEnterLight();
         _objectsInLitArea.Add(detectedObject);
     }
 
