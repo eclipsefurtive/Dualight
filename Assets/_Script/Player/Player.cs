@@ -45,9 +45,10 @@ public class Player : MonoBehaviour, ILightBehaviour
     {
         _renderer.material = _lightMaterial;
     }
-
+    
     public void OnExitLight()
     {
         _renderer.material = _darkMaterial;
     }
+
 }

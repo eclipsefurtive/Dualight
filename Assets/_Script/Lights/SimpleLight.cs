@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SimpleLight : MonoBehaviour
 {
+    [SerializeField] private Light _light;
     [SerializeField] private CapsuleCollider _collider;
     [SerializeField] private float _lightRadius = 6.0f;
 
@@ -16,6 +17,7 @@ public class SimpleLight : MonoBehaviour
     private void Awake()
     {
         _collider ??= GetComponent<CapsuleCollider>();
+        _light ??= GetComponent<Light>();
         _collider.radius = _lightRadius;
 
         _objectsInSight = new List<GameObject>();
@@ -50,24 +52,14 @@ public class SimpleLight : MonoBehaviour
 
     private void FixedUpdate()
     {
-        List<GameObject> toRemove = new List<GameObject>();
-        
-        foreach (GameObject gameObj in _pendingDetection)
-        {
-            if (IsInSight(gameObj))
-            {
-                gameObj.GetComponent<ILightBehaviour>().OnEnterLight();
-                toRemove.Add(gameObj);
-                _objectsInSight.Add(gameObj);
-            }
-        }
-        
-        foreach (GameObject gameObj in toRemove)
-            _pendingDetection.Remove(gameObj);
+        CheckPendingList();
+        CheckObjectsInSight();
     }
 
     private bool IsInSight(GameObject obj)
     {
+        if (!_light.isActiveAndEnabled) return false;
+        
         Vector3 dir = obj.transform.position - transform.position;
         Ray ray = new Ray(transform.position, dir);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, _lightRadius))
@@ -77,4 +69,39 @@ public class SimpleLight : MonoBehaviour
         return false;
     }
 
+    private void CheckPendingList()
+    {
+        // pending list -> light list
+        List<GameObject> toRemove = new List<GameObject>();
+        foreach (GameObject gameObj in _pendingDetection)
+        {
+            if (IsInSight(gameObj))
+            {
+                gameObj.GetComponent<ILightBehaviour>().OnEnterLight();
+                toRemove.Add(gameObj);
+                if (!_objectsInSight.Contains(gameObj))
+                    _objectsInSight.Add(gameObj);
+            }
+        }
+        foreach (GameObject gameObj in toRemove)
+            _pendingDetection.Remove(gameObj);
+    }
+
+    private void CheckObjectsInSight()
+    {
+        // light list -> pending list
+        List<GameObject> toRemove = new List<GameObject>();
+        foreach (GameObject gameObj in _objectsInSight)
+        {
+            if (!IsInSight(gameObj))
+            {
+                gameObj.GetComponent<ILightBehaviour>().OnExitLight();
+                toRemove.Add(gameObj);
+                if (!_pendingDetection.Contains(gameObj))
+                    _pendingDetection.Add(gameObj);
+            }
+        }
+        foreach (GameObject gameObj in toRemove)
+            _objectsInSight.Remove(gameObj);
+    }
 }
