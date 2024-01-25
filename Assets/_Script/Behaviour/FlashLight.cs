@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FlashLight : MonoBehaviour
 {
@@ -10,13 +12,11 @@ public class FlashLight : MonoBehaviour
     [SerializeField] private float _offDuration = 1.5f;
     [SerializeField] private bool _random = false;
 
-    private bool _isLightOn = false;
     private float timer = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        if (_random) PickRandomDuration();
     }
 
     // Update is called once per frame
@@ -24,28 +24,24 @@ public class FlashLight : MonoBehaviour
     {
         // update timer :
         timer += Time.deltaTime;
-
-        if (_random)
+        if ((_light.enabled && timer >= _onDuration) || (!_light.enabled && timer >= _offDuration))
         {
-            _onDuration = Random.Range(0f, 4f);
-            _offDuration = Random.Range(0f, 4f);
+            ToggleLight();
+            PickRandomDuration();
         }
-        if (_isLightOn && timer > _onDuration)
-            {
-                _light.enabled = false;
-                _isLightOn = false;
-                timer = 0f;
-
-        }
-
-
-        else if(!_isLightOn && timer > _offDuration)
-            {
-                _light.enabled = true;
-                _isLightOn = true;
-                timer = 0f;
-            }
         
+    }
+
+    private void PickRandomDuration()
+    {
+        _onDuration = Random.Range(0f, 4f);
+        _offDuration = Random.Range(0f, 4f);
+    }
+
+    private void ToggleLight()
+    {
+        _light.enabled = !_light.enabled;
+        timer = 0f;
     }
 
 
