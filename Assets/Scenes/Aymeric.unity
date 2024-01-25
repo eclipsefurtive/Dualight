@@ -1295,6 +1295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FlashLight
       objectReference: {fileID: 0}
+    - target: {fileID: 8445320469422426538, guid: caba7faf40e8050449695e18d1f6d302, type: 3}
+      propertyPath: _random
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
