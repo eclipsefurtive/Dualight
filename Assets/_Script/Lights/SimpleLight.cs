@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using _Script.Objects;
 using UnityEngine;
 
+/// <summary>
+/// Old light source object detection for comparison
+/// </summary>
 public class SimpleLight : MonoBehaviour
 {
     [SerializeField] private Light _light;
@@ -62,9 +65,13 @@ public class SimpleLight : MonoBehaviour
         
         Vector3 dir = obj.transform.position - transform.position;
         Ray ray = new Ray(transform.position, dir);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, _lightRadius))
+        RaycastHit[] allHitInfos = Physics.RaycastAll(ray, _lightRadius);
+        int count = allHitInfos.Length;
+        for (int i = 0; i < count; i++)
         {
-            return hitInfo.transform.gameObject == obj;
+            RaycastHit hitInfo = allHitInfos[i];
+            if (hitInfo.transform.GetComponent<ILightBehaviour>() == null) return false;
+            if (hitInfo.transform.gameObject == obj) return true;
         }
         return false;
     }

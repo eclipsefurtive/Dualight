@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7819885588864307203}
   - component: {fileID: 2821125176745876033}
-  - component: {fileID: 8690412743439314752}
   - component: {fileID: 4485014822010140643}
+  - component: {fileID: 385988774853446449}
   m_Layer: 0
   m_Name: SimpleLight
   m_TagString: Untagged
@@ -97,21 +97,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &8690412743439314752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3048718978675397209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 947a8321398b9ab4e9b4a8f1b0851775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _collider: {fileID: 4485014822010140643}
-  _lightRadius: 5
-  _objectsInSight: []
 --- !u!136 &4485014822010140643
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -135,6 +120,22 @@ CapsuleCollider:
   m_Height: 20
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &385988774853446449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3048718978675397209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ebadeb0c4e3e5a4794cf79a42c89ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _light: {fileID: 2821125176745876033}
+  _collider: {fileID: 4485014822010140643}
+  _lightRadius: 5
+  _lightSource: {fileID: 7819885588864307203}
 --- !u!1 &7102768422847326530
 GameObject:
   m_ObjectHideFlags: 0
