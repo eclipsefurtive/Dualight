@@ -8,7 +8,6 @@ using UnityEngine;
 public class LightSource : MonoBehaviour
 {
     [SerializeField] private Light _light;
-    [SerializeField] private CapsuleCollider _collider;
     
     [SerializeField] private float _lightRadius = 5.0f;
     private Transform _lightSource;
@@ -19,10 +18,8 @@ public class LightSource : MonoBehaviour
     private void Awake()
     {
         if (!_light) _light = GetComponent<Light>();
-        if (!_collider) _collider = GetComponent<CapsuleCollider>();
 
         _light.range = _lightRadius;
-        _collider.radius = _lightRadius;
         _lightSource = transform;
     }
 
