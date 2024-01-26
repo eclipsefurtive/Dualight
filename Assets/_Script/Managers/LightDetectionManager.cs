@@ -85,7 +85,7 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
         {
             Collider[] hits = Physics.OverlapSphere(origin, 0.1f, _playerLayer);
             if (hits.Length < 1) return;
-            detectedObject = hits[0].gameObject;
+            detectedObject = hits[0].gameObject; // the only object in player layer is the player
         }
         else detectedObject = hitInfo.transform.gameObject;
         

@@ -2,11 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Script.Objects;
+using _Script.Player;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour, ILightBehaviour
 {
+    public enum State
+    {
+        Dark = 0,
+        Light = 1
+    }
+
+    [SerializeField] private int _currentState = 0;
+    
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Material _darkMaterial;
     [SerializeField] private Material _lightMaterial;
@@ -17,6 +26,9 @@ public class Player : MonoBehaviour, ILightBehaviour
     [SerializeField] private float _moveSpeed = 5.0f;
     [SerializeField] private float _jumpForce = 5.0f;
 
+    private Dictionary<State, PlayerState> _playerStates;
+    private PlayerState _activeState;
+
     private void Awake()
     {
         _input ??= GetComponent<PlayerInputController>();
@@ -25,9 +37,30 @@ public class Player : MonoBehaviour, ILightBehaviour
         _input.OnJump += Jump;
     }
 
+    private void Start()
+    {
+        _playerStates = new Dictionary<State, PlayerState>
+        {
+            { State.Dark, new PlayerDarkState(this) },
+            { State.Light, new PlayerLightState(this) }
+        };
+
+        _activeState = _playerStates[State.Dark];
+        _activeState.OnEnterState();
+    }
+
     private void Update()
     {
         Move(_input.HorizontalMovementValue);
+        _activeState.OnUpdateState();
+    }
+
+    public void ChangeState(State newState)
+    {
+        _activeState.OnExitState();
+        _activeState = _playerStates[newState];
+        _activeState.OnEnterState();
+        _currentState = (int)newState;
     }
 
     private void Move(float horizontalValue)
@@ -43,12 +76,14 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     public void OnEnterLight()
     {
-        _renderer.material = _lightMaterial;
+        ChangeState(State.Light);
     }
     
     public void OnExitLight()
     {
-        _renderer.material = _darkMaterial;
+        ChangeState(State.Dark);
     }
 
+    public Material LightMaterial => _lightMaterial;
+    public Material DarkMaterial => _darkMaterial;
 }
