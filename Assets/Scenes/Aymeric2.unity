@@ -724,11 +724,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9133749659211441136, guid: 7eef3718832c06c44ab11bb6db25c44c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.94
+      value: -4.76
       objectReference: {fileID: 0}
     - target: {fileID: 9133749659211441136, guid: 7eef3718832c06c44ab11bb6db25c44c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.89
+      value: -2.83
       objectReference: {fileID: 0}
     - target: {fileID: 9133749659211441136, guid: 7eef3718832c06c44ab11bb6db25c44c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1080,11 +1080,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29306fe3c7e3203438278a330d029274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _collider: {fileID: 1539177694}
   _platformRenderer: {fileID: 1539177695}
   _darkMaterial: {fileID: 2100000, guid: 1b1a2c8532ab9124bb4e712a63428967, type: 2}
   _lightMaterial: {fileID: 2100000, guid: e9b4ec4e7f93a8345a7d55ac1ff4eb8b, type: 2}
   _timerEnabled: 0
   _timerDuration: 5
+--- !u!65 &1539177694 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 3260369748299917092, guid: 7eef3718832c06c44ab11bb6db25c44c, type: 3}
+  m_PrefabInstance: {fileID: 1231986545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!23 &1539177695 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7846386677208408659, guid: 7eef3718832c06c44ab11bb6db25c44c, type: 3}

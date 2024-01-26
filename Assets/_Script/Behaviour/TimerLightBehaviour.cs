@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TimerReceiveLight : MonoBehaviour, ILightBehaviour
 {
+    [SerializeField] private Collider _collider;
     [SerializeField] private Renderer _platformRenderer;
     [SerializeField] private Material _darkMaterial;
     [SerializeField] private Material _lightMaterial;
@@ -34,6 +35,7 @@ public class TimerReceiveLight : MonoBehaviour, ILightBehaviour
             _platformRenderer.material = _lightMaterial;
             _isLighting = true;
             _timerEnabled = true;
+            _collider.isTrigger = false;
         }
     }
 
@@ -44,6 +46,7 @@ public class TimerReceiveLight : MonoBehaviour, ILightBehaviour
     private void Awake()
     {
         _platformRenderer ??= GetComponent<Renderer>();
+        _collider ??= GetComponent<Collider>();
     }
 
      private void TimerEnd()
@@ -51,5 +54,6 @@ public class TimerReceiveLight : MonoBehaviour, ILightBehaviour
         _platformRenderer.material = _darkMaterial;
         _isLighting = false;
         _timerDuration = 5f;
+        _collider.isTrigger = true;
     }
 }
