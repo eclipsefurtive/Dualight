@@ -80,10 +80,16 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
     
     private void RaycastPlayer(Vector3 origin, Vector3 direction, float radius)
     {
-        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, _playerLayer|_objectsLayers)) return;
-        GameObject detectedObject = hitInfo.transform.gameObject;
+        GameObject detectedObject;
+        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, _playerLayer | _objectsLayers))
+        {
+            Collider[] hits = Physics.OverlapSphere(origin, 0.1f, _playerLayer);
+            if (hits.Length < 1) return;
+            detectedObject = hits[0].gameObject; // the only object in player layer is the player
+        }
+        else detectedObject = hitInfo.transform.gameObject;
         
-        if (!detectedObject.TryGetComponent(out Player player)) return;
+        if (!detectedObject || !detectedObject.TryGetComponent(out Player player)) return;
 
         if (_objectsDetectedInCurrentFrame.Contains(detectedObject)) return;
         _objectsDetectedInCurrentFrame.Add(detectedObject);
