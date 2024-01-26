@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerInputController : MonoBehaviour
 {
+    private Camera _camera;
+    [SerializeField] private LayerMask _backgroundMask;
+    
     public event Action OnJump;
     public event Action OnCrouch;
     public event Action OnClick;
@@ -23,13 +26,31 @@ public class PlayerInputController : MonoBehaviour
         asset.Player.Click.performed += (context) => OnClick?.Invoke();
         asset.Player.Jump.performed += (context) => OnJump?.Invoke();
         asset.Player.Crouch.performed += (context) => OnCrouch?.Invoke();
+
+        _camera = Camera.main;
     }
 
     private void Update()
     {
         _horizontalMovementValue = asset.Player.HorizontalMovement.ReadValue<float>();
+        MousePositionScreen = asset.Player.MouseScreenPosition.ReadValue<Vector2>();
+
+        MouseToWorld();
     }
 
+    private void MouseToWorld()
+    {
+        Ray mouseRay = _camera.ScreenPointToRay(MousePositionScreen);
+        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, 1000f, _backgroundMask))
+        {
+            MousePositionWorld = hitInfo.point;
+        }
+        else
+        {
+            MousePositionWorld = Vector3.zero;
+        }
+    }
+    
     private void OnEnable()
     {
         asset.Enable();

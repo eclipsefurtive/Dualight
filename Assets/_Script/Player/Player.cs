@@ -14,7 +14,7 @@ public class Player : MonoBehaviour, ILightBehaviour
         Light = 1
     }
 
-    [SerializeField] private int _currentState = 0;
+    [SerializeField] private LayerMask _groundMask;
     
     [SerializeField] private Renderer _renderer;
     [SerializeField] private Material _darkMaterial;
@@ -28,6 +28,10 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private Dictionary<State, PlayerState> _playerStates;
     private PlayerState _activeState;
+
+    private bool _canJump = true;
+
+    public PlayerInputController Inputs => _input;
 
     private void Awake()
     {
@@ -51,8 +55,17 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private void Update()
     {
+        if (!_canJump) CheckGround();
         Move(_input.HorizontalMovementValue);
         _activeState.OnUpdateState();
+    }
+
+    private void CheckGround()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, 0.5f, _groundMask))
+        {
+            _canJump = true;
+        }
     }
 
     public void ChangeState(State newState)
@@ -60,7 +73,6 @@ public class Player : MonoBehaviour, ILightBehaviour
         _activeState.OnExitState();
         _activeState = _playerStates[newState];
         _activeState.OnEnterState();
-        _currentState = (int)newState;
     }
 
     private void Move(float horizontalValue)
@@ -71,7 +83,9 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private void Jump()
     {
+        if (!_canJump) return;
         _rigidbody.AddRelativeForce(Vector3.up * _jumpForce);
+        _canJump = false;
     }
 
     public void OnEnterLight()

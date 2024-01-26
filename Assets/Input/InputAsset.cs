@@ -62,6 +62,15 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseScreenPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""e8163610-e075-401b-a722-cc457ae67928"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -141,6 +150,17 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e1db68a3-c450-44b0-8a7e-64cfc4452b84"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseScreenPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -153,6 +173,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+        m_Player_MouseScreenPosition = m_Player.FindAction("MouseScreenPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -218,6 +239,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Click;
+    private readonly InputAction m_Player_MouseScreenPosition;
     public struct PlayerActions
     {
         private @InputAsset m_Wrapper;
@@ -226,6 +248,7 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Click => m_Wrapper.m_Player_Click;
+        public InputAction @MouseScreenPosition => m_Wrapper.m_Player_MouseScreenPosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -247,6 +270,9 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
+            @MouseScreenPosition.started += instance.OnMouseScreenPosition;
+            @MouseScreenPosition.performed += instance.OnMouseScreenPosition;
+            @MouseScreenPosition.canceled += instance.OnMouseScreenPosition;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -263,6 +289,9 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
+            @MouseScreenPosition.started -= instance.OnMouseScreenPosition;
+            @MouseScreenPosition.performed -= instance.OnMouseScreenPosition;
+            @MouseScreenPosition.canceled -= instance.OnMouseScreenPosition;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -286,5 +315,6 @@ public partial class @InputAsset: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
+        void OnMouseScreenPosition(InputAction.CallbackContext context);
     }
 }
