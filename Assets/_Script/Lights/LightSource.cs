@@ -11,10 +11,8 @@ public class LightSource : MonoBehaviour
     [SerializeField] private CapsuleCollider _collider;
     
     [SerializeField] private float _lightRadius = 5.0f;
-    private float _angleDelta = 2.0f;
     private Transform _lightSource;
 
-    public float AngleDelta => _angleDelta;
     public float Radius => _lightRadius;
     public Vector3 Position => _lightSource.position;
     

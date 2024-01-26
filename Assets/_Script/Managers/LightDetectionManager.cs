@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using _Script.Objects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LightDetectionManager : Singleton<LightDetectionManager>
 {
-    [SerializeField] private LayerMask objectsLayers;
-    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private float _angleDelta = 2.0f;
+    [SerializeField] private bool _debugRays = false;
+    
+    [SerializeField] private LayerMask _objectsLayers;
+    [SerializeField] private LayerMask _playerLayer;
     
     private List<LightSource> _lightSources = new List<LightSource>();
     
@@ -27,6 +31,11 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
             _lightSources.Remove(lightSource);
     }
 
+    private void Start()
+    {
+        if (_angleDelta < 1.0f) _angleDelta = 1.0f;
+    }
+
     private void Update()
     {
         _objectsDetectedInCurrentFrame = new List<GameObject>();
@@ -40,11 +49,13 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
 
     public void SendLightRays(LightSource lightSource)
     {
-        for (float angle = 0f; angle < 360f; angle += lightSource.AngleDelta)
+        for (float angle = 0f; angle < 360f; angle += _angleDelta)
         {
             float radAngle = angle * Mathf.Deg2Rad;
             Vector3 rayDirection = new Vector3(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
             Vector3 rayOrigin = lightSource.Position;
+            
+            if (_debugRays) Debug.DrawRay(rayOrigin, rayDirection * lightSource.Radius, Color.red);
             
             RaycastObjects(rayOrigin, rayDirection, lightSource.Radius);
             RaycastPlayer(rayOrigin, rayDirection, lightSource.Radius);
@@ -53,7 +64,7 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
 
     private void RaycastObjects(Vector3 origin, Vector3 direction, float radius)
     {
-        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, objectsLayers)) return;
+        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, _objectsLayers)) return;
             
         GameObject detectedObject = hitInfo.transform.gameObject;
         if (!detectedObject.TryGetComponent(out ILightBehaviour lightObject)) return;
@@ -69,7 +80,7 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
     
     private void RaycastPlayer(Vector3 origin, Vector3 direction, float radius)
     {
-        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, playerLayer|objectsLayers)) return;
+        if (!Physics.Raycast(origin, direction, out RaycastHit hitInfo, radius, _playerLayer|_objectsLayers)) return;
         GameObject detectedObject = hitInfo.transform.gameObject;
         
         if (!detectedObject.TryGetComponent(out Player player)) return;
