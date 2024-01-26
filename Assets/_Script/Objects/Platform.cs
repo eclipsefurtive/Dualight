@@ -27,5 +27,5 @@ public class Platform : MonoBehaviour, ILightBehaviour
         _renderer ??= GetComponent<Renderer>();
         _collider ??= GetComponent<Collider>();
     }
-
+    
 }
