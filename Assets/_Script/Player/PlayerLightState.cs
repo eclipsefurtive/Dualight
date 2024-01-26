@@ -25,8 +25,7 @@ namespace _Script.Player
         public override void OnUpdateState()
         {
             _beam.Pos = _player.Inputs.MousePositionWorld;
-            if (_beam.Pos == Vector3.zero) _beam.ValidPos = false;
-            else _beam.ValidPos = true;
+            _beam.ValidPos = _beam.Pos != Vector3.zero;
         }
 
         public override void OnExitState()

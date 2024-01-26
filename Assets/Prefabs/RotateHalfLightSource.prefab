@@ -99,7 +99,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -204,7 +204,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -220,7 +220,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3048718978675397209, guid: c334802ad4c91fc4b96dfec19fca07bd, type: 3}
       propertyPath: m_Name
-      value: LightSource Variant
+      value: RotateHalfLightSource
       objectReference: {fileID: 0}
     - target: {fileID: 7819885588864307203, guid: c334802ad4c91fc4b96dfec19fca07bd, type: 3}
       propertyPath: m_LocalPosition.x

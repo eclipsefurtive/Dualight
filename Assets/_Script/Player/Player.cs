@@ -31,6 +31,8 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private bool _canJump = true;
 
+    private Vector3 _startPosition;
+
     public PlayerInputController Inputs => _input;
 
     private void Awake()
@@ -39,6 +41,7 @@ public class Player : MonoBehaviour, ILightBehaviour
         _renderer ??= GetComponent<Renderer>();
         
         _input.OnJump += Jump;
+        _startPosition = transform.position;
     }
 
     private void Start()
@@ -86,6 +89,11 @@ public class Player : MonoBehaviour, ILightBehaviour
         if (!_canJump) return;
         _rigidbody.AddRelativeForce(Vector3.up * _jumpForce);
         _canJump = false;
+    }
+
+    public void Respawn()
+    {
+        transform.position = _startPosition;
     }
 
     public void OnEnterLight()
