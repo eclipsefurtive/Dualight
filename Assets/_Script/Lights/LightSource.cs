@@ -32,4 +32,10 @@ public class LightSource : MonoBehaviour
     {
         LightDetectionManager.Instance.RemoveLightSource(this);
     }
+
+    public void SetRadius(float radius)
+    {
+        _lightRadius = radius;
+        _light.range = radius;
+    }
 }

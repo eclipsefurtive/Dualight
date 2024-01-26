@@ -41,7 +41,7 @@ public class PlayerInputController : MonoBehaviour
     private void MouseToWorld()
     {
         Ray mouseRay = _camera.ScreenPointToRay(MousePositionScreen);
-        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, 1000f, _backgroundMask))
+        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo, 30f, _backgroundMask))
         {
             MousePositionWorld = hitInfo.point;
         }

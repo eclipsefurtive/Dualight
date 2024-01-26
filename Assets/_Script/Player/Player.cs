@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, ILightBehaviour
         Light = 1
     }
 
+    [SerializeField] private LightSource _lightBeamPrefab;
     [SerializeField] private LayerMask _groundMask;
     
     [SerializeField] private Renderer _renderer;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour, ILightBehaviour
     private Dictionary<State, PlayerState> _playerStates;
     private PlayerState _activeState;
 
-    private bool _canJump = true;
+    private bool _grounded = false;
 
     private Vector3 _startPosition;
 
@@ -58,17 +59,14 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private void Update()
     {
-        if (!_canJump) CheckGround();
+        _grounded = CheckGround();
         Move(_input.HorizontalMovementValue);
         _activeState.OnUpdateState();
     }
 
-    private void CheckGround()
+    private bool CheckGround()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 0.5f, _groundMask))
-        {
-            _canJump = true;
-        }
+        return Physics.Raycast(transform.position, Vector3.down, 0.501f, _groundMask);
     }
 
     public void ChangeState(State newState)
@@ -86,9 +84,8 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     private void Jump()
     {
-        if (!_canJump) return;
+        if (!_grounded) return;
         _rigidbody.AddRelativeForce(Vector3.up * _jumpForce);
-        _canJump = false;
     }
 
     public void Respawn()
@@ -108,7 +105,6 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     public Material LightMaterial => _lightMaterial;
     public Material DarkMaterial => _darkMaterial;
-    
     
     private void OnTriggerEnter(Collider other)
     {

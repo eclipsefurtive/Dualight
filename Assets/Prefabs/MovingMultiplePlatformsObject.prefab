@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6153228641370348890, guid: 38241a97306e58a43b9820a20419ec44, type: 3}
       propertyPath: m_Name
-      value: MultiplePlatformsObject Variant
+      value: MovingMultiplePlatformsObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 6153228641370348890, guid: 38241a97306e58a43b9820a20419ec44, type: 3}
+      propertyPath: m_TagString
+      value: StickPlayer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
