@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Script.Utils;
@@ -37,5 +38,4 @@ public class MovingBehaviour : MonoBehaviour
         float pingPongValue = Mathf.PingPong(Time.time * _moveSpeed, _movementDistance);
         transform.position = _startPosition + _directionVector * pingPongValue;
     }
-
 }

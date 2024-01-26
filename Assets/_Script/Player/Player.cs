@@ -86,4 +86,21 @@ public class Player : MonoBehaviour, ILightBehaviour
 
     public Material LightMaterial => _lightMaterial;
     public Material DarkMaterial => _darkMaterial;
+    
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("StickPlayer"))
+        {
+            transform.SetParent(other.transform);
+        }
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("StickPlayer"))
+        {
+            transform.SetParent(null);
+        }
+    }
 }
