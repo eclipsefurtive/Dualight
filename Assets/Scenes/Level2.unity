@@ -747,15 +747,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 615677367719773350, guid: a5e994d78f2137b4abc3c5b564d53b50, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.51
+      value: 2.52
       objectReference: {fileID: 0}
     - target: {fileID: 615677367719773350, guid: a5e994d78f2137b4abc3c5b564d53b50, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.75
+      value: 2.11
       objectReference: {fileID: 0}
     - target: {fileID: 615677367719773350, guid: a5e994d78f2137b4abc3c5b564d53b50, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 615677367719773350, guid: a5e994d78f2137b4abc3c5b564d53b50, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1748,9 +1748,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _light: {fileID: 1505363738}
-  _startDelay: 0
-  _onDuration: 4
-  _offDuration: 4
+  _startDelay: 1.5
+  _onDuration: 2
+  _offDuration: 2
   _random: 0
 --- !u!108 &1505363738 stripped
 Light:
