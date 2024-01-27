@@ -218,6 +218,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 385988774853446449, guid: c334802ad4c91fc4b96dfec19fca07bd, type: 3}
+      propertyPath: _lightRadius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821125176745876033, guid: c334802ad4c91fc4b96dfec19fca07bd, type: 3}
+      propertyPath: m_Range
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3048718978675397209, guid: c334802ad4c91fc4b96dfec19fca07bd, type: 3}
       propertyPath: m_Name
       value: RotateHalfLightSource

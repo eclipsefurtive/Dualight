@@ -40,9 +40,12 @@ public class LightDetectionManager : Singleton<LightDetectionManager>
     {
         _objectsDetectedInCurrentFrame = new List<GameObject>();
         if (LightSourcesCount < 1) return;
-        
+
         foreach (LightSource lightSource in _lightSources)
+        {
+            if (!lightSource.IsLightOn) continue;
             SendLightRays(lightSource);
+        }
         
         CheckObjectsExit();
     }

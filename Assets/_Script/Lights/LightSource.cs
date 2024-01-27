@@ -14,6 +14,7 @@ public class LightSource : MonoBehaviour
 
     public float Radius => _lightRadius;
     public Vector3 Position => _lightSource.position;
+    public bool IsLightOn => _light.isActiveAndEnabled;
     
     private void Awake()
     {
@@ -23,7 +24,7 @@ public class LightSource : MonoBehaviour
         _lightSource = transform;
     }
 
-    private void OnEnable()
+    private void Start()
     {
         LightDetectionManager.Instance.AddLightSource(this);
     }
